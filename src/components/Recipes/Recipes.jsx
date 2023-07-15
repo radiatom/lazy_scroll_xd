@@ -21,9 +21,19 @@ const Recipes = () => {
         setPage(page + 1); //оновлюємо номер сторінки яку ми бедемо загружати
         fetchData(page); //відправляємо запит по нову сторінку
     };
-    const click3 = (id)  => {
-        setDataId([...dataId,id])
-        console.log([...dataId,id]);
+    const click3 = (id) => {
+        const addOrRemoveNumber = (array, number) => {
+            const newArray = [...array]; // Створюємо копію масиву
+            const index = newArray.indexOf(number);
+            if (index === -1) {
+                newArray.push(number); //добавляємо число якщо його нема
+            } else {
+                newArray.splice(index, 1); //видаляємо число якщо воно є
+            }
+            console.log(newArray);//відображуємо в консолі які id у нас в масиві
+            return newArray; // Повертаємо оновлений масив
+        };
+        setDataId([...addOrRemoveNumber(dataId, id)]);
     };
     return (
         <div className="repices">
