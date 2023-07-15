@@ -5,22 +5,26 @@ import "./repices.scss";
 
 const Recipes = () => {
     const [page, setPage] = useState(1);
-    const fetchData = useStore((state) => state.fetchData);//запит на отримання першої сторінки
+    const fetchData = useStore((state) => state.fetchData);//запит на отримання першої сторінки і відсортування з 25 рецептів лишити 15
     const recipes = useStore((state) => state.recipes);//15рецептів
-    const data=useStore((state)=>state.data)//стан 25рецептів
-    const addrecipes = useStore((state) => state.addrecipes);//сортування з 25 рецептів лише перші 15 
+    const deleteFirstItems=useStore((state)=>state.deleteFirstItems)
     useEffect(() => {
         if (recipes.length === 0) {
             fetchData(page); //перший запит, перевірка щоб не робило кучу запитів якщо в сторі вже є перша сторінка
         }
     }, []);
-    useEffect(() => {
-        addrecipes(15);//коли отримаємо всі 25 карточок відсортувати лише 15
-    }, [data]);
-
+    const click=()=>{
+        deleteFirstItems()//видалення перших 5 рецептів
+    }
+    const click2=()=>{
+        setPage(page+1)//оновлюємо номер сторінки яку ми бедемо загружати
+        fetchData(page)//відправляємо запит по нову сторінку 
+    }
     return (
         <div className="repices">
-            {recipes.map((el) => (
+            <button onClick={click}>видалити перші рецепти</button>
+            <button onClick={click2}>відправити запит на ще одну сторінку</button>
+            {recipes.slice(0, 15).map((el) => (
                 <Recipe
                     id={el.id}
                     key={el.id}
