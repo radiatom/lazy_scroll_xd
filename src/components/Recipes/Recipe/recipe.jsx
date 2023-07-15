@@ -1,21 +1,21 @@
 import React from "react";
+import './recipe.scss'
 
 const Recipe = ({
     id,
     name,
     tagline,
-    first_brewed,
     description,
     image_url,
 }) => {
     return (
-        <div>
-            <h4>{id}</h4>
-            <img src={image_url} alt="" />
-            <h3>{name}</h3>
-            <h3>tagline: {tagline}</h3>
-            <p>{description}</p>
-            <p>first brewed: {first_brewed}</p>
+        <div className="recipe">
+            <div className="recipe__img"><img src={image_url} alt="" /></div>
+            <div className="recipe__text">
+                <h3>{name}</h3>
+                <h3>{tagline}</h3>
+                <p>{description}</p>
+            </div>
         </div>
     );
 };
