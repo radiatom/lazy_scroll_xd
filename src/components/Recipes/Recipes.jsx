@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useStore } from "../../zustand/store";
+import { useRecip } from "../../zustand/storeRecip";
 import Recipe from "./Recipe/Recipe";
 import "./repices.scss";
 
 const Recipes = () => {
     const [page, setPage] = useState(1);
     const [dataId, setDataId] = useState([]);
-    const fetchData = useStore((state) => state.fetchData); //запит на отримання першої сторінки і відсортування з 25 рецептів лишити 15
-    const recipes = useStore((state) => state.recipes); //15рецептів
-    const deleteFirstItems = useStore((state) => state.deleteFirstItems);//видалення перших 5 рецептів
-    const deleteRecipe = useStore((state) => state.deleteRecipe);//видалення конкретних рецептів
+    const fetchData = useRecip((state) => state.fetchData); //запит на отримання першої сторінки і відсортування з 25 рецептів лишити 15
+    const recipes = useRecip((state) => state.recipes); //15рецептів
+    const deleteFirstItems = useRecip((state) => state.deleteFirstItems);//видалення перших 5 рецептів
+    const deleteRecipe = useRecip((state) => state.deleteRecipe);//видалення конкретних рецептів
 
     useEffect(() => {
         if (recipes.length === 0) {
