@@ -12,7 +12,7 @@ const Recipe = ({
         <div className="recipe">
             <div className="recipe__img"><img src={image_url} alt="" /></div>
             <div className="recipe__text">
-                <h3>{name}</h3>
+                <h3>{name}{id}</h3>
                 <h3>{tagline}</h3>
                 <p>{description}</p>
             </div>

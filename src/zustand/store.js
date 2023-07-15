@@ -8,7 +8,7 @@ export const useStore = create((set) => ({
             `https://api.punkapi.com/v2/beers?page=${page}`
         );
         const result = await res.json();
-        const newRecipes = result.map(
+        const newData = result.map(
             ({ id, name, tagline, description, image_url }) => ({
                 id,
                 name,
@@ -17,8 +17,15 @@ export const useStore = create((set) => ({
                 image_url,
             })
         );
-        set(state=>{
-             return {data:[...state.data,...newRecipes]}
+        set((state) => {
+            return { data: [...state.data, ...newData] };
         });
     },
+    addrecipes: (count) =>
+        set((state) => {
+            const newRecipes = state.data.splice(0, count);
+            return {
+                recipes: [...newRecipes],
+            };
+        }),
 }));

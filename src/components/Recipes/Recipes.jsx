@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useStore } from "../../zustand/store";
 import Recipe from "./Recipe/Recipe";
-import './repices.scss'
-
+import "./repices.scss";
 
 const Recipes = () => {
-    const [page,setPage]=useState(1)
-    const fetchData=useStore((state)=>state.fetchData)
-    const recipes = useStore((state)=>state.data);
+    const [page, setPage] = useState(1);
+    const fetchData = useStore((state) => state.fetchData);//запит на отримання першої сторінки
+    const recipes = useStore((state) => state.recipes);//15рецептів
+    const data=useStore((state)=>state.data)//стан 25рецептів
+    const addrecipes = useStore((state) => state.addrecipes);//сортування з 25 рецептів лише перші 15 
     useEffect(() => {
-        if(recipes.length===0){fetchData(page)}
-    });
+        if (recipes.length === 0) {
+            fetchData(page); //перший запит, перевірка щоб не робило кучу запитів якщо в сторі вже є перша сторінка
+        }
+    }, []);
+    useEffect(() => {
+        addrecipes(15);//коли отримаємо всі 25 карточок відсортувати лише 15
+    }, [data]);
+
     return (
         <div className="repices">
             {recipes.map((el) => (
