@@ -29,3 +29,9 @@
       }
     }
 }
+.recipeActive{
+  background-color: rgb(247, 161, 161);
+  &:hover{
+    background-color: rgba(252, 222, 222, 0.63);
+  }
+}
