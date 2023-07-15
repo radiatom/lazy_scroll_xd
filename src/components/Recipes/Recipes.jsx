@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useStore } from "../../zustand/store";
 import Recipe from "./Recipe/Recipe";
 import './repices.scss'
 
 
 const Recipes = () => {
-    const recipes = useStore((state)=>state.recipes);
+    const fetchData=useStore((state)=>state.fetchData)
+    useEffect(() => {
+        fetchData()
+    });
+    const recipes = useStore((state)=>state.data);
     return (
         <div className="repices">
             {recipes.map((el) => (
