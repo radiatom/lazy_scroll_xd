@@ -8,7 +8,9 @@ const Recipes = () => {
     const [dataId, setDataId] = useState([]);
     const fetchData = useStore((state) => state.fetchData); //запит на отримання першої сторінки і відсортування з 25 рецептів лишити 15
     const recipes = useStore((state) => state.recipes); //15рецептів
-    const deleteFirstItems = useStore((state) => state.deleteFirstItems);
+    const deleteFirstItems = useStore((state) => state.deleteFirstItems);//видалення перших 5 рецептів
+    const deleteRecipe = useStore((state) => state.deleteRecipe);//видалення конкретних рецептів
+
     useEffect(() => {
         if (recipes.length === 0) {
             fetchData(page); //перший запит, перевірка щоб не робило кучу запитів якщо в сторі вже є перша сторінка
@@ -35,12 +37,17 @@ const Recipes = () => {
         };
         setDataId([...addOrRemoveNumber(dataId, id)]);
     };
+    const click4=()=>{
+        deleteRecipe(dataId)//видаляємо рецепти які ми вибрали в масив
+        setDataId([])//очищаємо масив айдішок що ми  хотіли видалити
+    }
     return (
         <div className="repices">
             <button onClick={click}>видалити перші рецепти</button>
             <button onClick={click2}>
                 відправити запит на ще одну сторінку
             </button>
+            <button onClick={click4}>delete</button>
             {recipes.slice(0, 15).map((el) => (
                 <Recipe
                     click3={click3}

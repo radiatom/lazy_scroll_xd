@@ -34,6 +34,14 @@ export const useStore = create(
                     recipes: [...newData],
                 };//вертаємо масив рецептів без 5 перших
             });
+        },
+        deleteRecipe:(arrayId)=>{
+            set((state) => {
+                const newData1 = state.recipes.filter((item) => !arrayId.includes(item.id));//видаляємо обєкти які мають id що співпадають з значеннями в масиві arrayId 
+                return {
+                    recipes: [...newData1],
+                }//вертаємо масив без рецептів які ми вибрали щоб видалити
+            });
         }
     }))
 );

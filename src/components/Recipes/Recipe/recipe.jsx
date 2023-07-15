@@ -13,7 +13,7 @@ const Recipe = ({
     const click=(id)=> (event)=>{
         event.preventDefault(); //вимикаємо меню
         click3(id)
-        setSel(!sel)
+        setSel(!sel)//for css
     }
     return (
         <div className={sel?'recipeActive recipe':"recipe"} onContextMenu={click(id)}>
