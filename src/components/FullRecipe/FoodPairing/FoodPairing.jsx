@@ -1,10 +1,8 @@
 import React from 'react';
 
-const FoodPairing = (props) => {
+const FoodPairing = ({el}) => {
       return (
-            <div>
-                  
-            </div>
+            <p>{el}</p>
       );
 }
 

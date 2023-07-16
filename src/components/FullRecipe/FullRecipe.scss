@@ -1,0 +1,13 @@
+.fullRecipe{
+      margin: 30px 0;
+      padding: 0 30px;
+      img{
+            height: 200px;
+      }
+      p::first-letter{
+            text-transform: capitalize;//збільшення першої букви
+      }
+      &__select{
+            background-color: rgb(190, 252, 231);
+      }
+}
