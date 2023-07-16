@@ -3,4 +3,12 @@
       overflow: scroll;
       overflow-x: hidden;
       width: 100%;
+      border: 1px solid aquamarine;
+      position: relative;
+      &__delete{
+            position: sticky;
+            top: 1px;
+            padding: 10px;
+            font-size: 20px;
+      }
 }

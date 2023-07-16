@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import "./recipe.scss";
 import { useRecip } from "../../../zustand/storeRecip";
 
@@ -11,27 +11,26 @@ const Recipe = ({
     image_url,
 }) => {
     const fetchDataOneRecipe = useRecip((state) => state.fetchDataOneRecipe); //відправити запит на отриманння більшої інфи по рецепту
-    const [sel, setSel] = useState(false);
-    const click = (id) => (event) => {
+    const [sel, setSel] = useState(false);//зміна стилю
+
+    const clickOnRecipe = (id) => (event) => {
         event.preventDefault(); //вимикаємо меню
-        selectDelete(id);
+        selectDelete(id);//добавити чи видалити айдішку з масива
         setSel(!sel); //for css
     };
-    const click2 = (id) => {
-        fetchDataOneRecipe(id);
-    };
+
     return (
         <div
             className={sel ? "recipeActive recipe" : "recipe"}
-            onContextMenu={click(id)}
-            onClick={() => click2(id)}
+            onContextMenu={clickOnRecipe(id)}
+            onClick={() => fetchDataOneRecipe(id)}
         >
             <div className="recipe__img">
-                <img src={image_url} alt="" />
+                <img src={image_url} alt="foto" />
             </div>
             <div className="recipe__text">
                 <h3>
-                    {name}
+                    {name}{" id: "}
                     {id}
                 </h3>
                 <h3>{tagline}</h3>

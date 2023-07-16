@@ -45,7 +45,7 @@ const Recipes = (props) => {
             return newArray; // Повертаємо оновлений масив з айдійшками які ми хочемо видалити
         };
         setDataId([...addOrRemoveNumber(dataId, id)]);// вставляємо цей масив в стан
-    };
+    };//добавити чи видалити айдішку з масива
 
     const deleteBtn = () => {
         deleteRecipe(dataId); //видаляємо рецепти які ми вибрали в масив (стан)
@@ -60,7 +60,7 @@ const Recipes = (props) => {
 
     return (
         <div className="repices" id="scroll-container">
-            {dataId.length > 0 ? <button onClick={deleteBtn}>delete</button> : ""}
+            {dataId.length > 0 ? <button className="repices__delete" onClick={deleteBtn}>delete</button> : ""}
             {/* в масиві айдішок які треба видалити є значення тоді відобразити кнопку */}
             {recipes.slice(0, 15).map((el) => (
                 <Recipe
