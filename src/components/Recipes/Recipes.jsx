@@ -8,13 +8,16 @@ const Recipes = (props) => {
     const [dataId, setDataId] = useState([]);
     const fetchData = useRecip((state) => state.fetchData); //запит на отримання першої сторінки і відсортування з 25 рецептів лишити 15
     const recipes = useRecip((state) => state.recipes); //15рецептів
-    const deleteFirstItems = useRecip((state) => state.deleteFirstItems);//видалення перших 5 рецептів
-    const deleteRecipe = useRecip((state) => state.deleteRecipe);//видалення конкретних рецептів
+    const deleteFirstItems = useRecip((state) => state.deleteFirstItems); //видалення перших 5 рецептів
+    const deleteRecipe = useRecip((state) => state.deleteRecipe); //видалення конкретних рецептів
+
+    // useEffect(() => {
+    //     console.log(page);
+    // }, [page]);
 
     useEffect(() => {
         if (recipes.length === 0) {
-            fetchData(page); //перший запит, перевірка щоб не робило кучу запитів якщо в сторі вже є перша сторінка
-            setPage(page+1)//оновлюємо номер сторінки яку ми бедемо загружати в майбутньому
+            fetchData(1); //перший запит, перевірка щоб не робило кучу запитів якщо в сторі вже є перша сторінка
         }
     }, [props]);
     const click = () => {
@@ -22,7 +25,7 @@ const Recipes = (props) => {
     };
     const click2 = () => {
         fetchData(page); //відправляємо запит по нову сторінку
-        setPage(page+1); //оновлюємо номер сторінки яку ми бедемо загружати в майбутньому
+        setPage(page + 1); //оновлюємо номер сторінки яку ми бедемо загружати в майбутньому
     };
     const click3 = (id) => {
         const addOrRemoveNumber = (array, number) => {
@@ -33,22 +36,46 @@ const Recipes = (props) => {
             } else {
                 newArray.splice(index, 1); //видаляємо число якщо воно є
             }
-            console.log(newArray);//відображуємо в консолі які id у нас в масиві
+            console.log(newArray); //відображуємо в консолі які id у нас в масиві
             return newArray; // Повертаємо оновлений масив
         };
         setDataId([...addOrRemoveNumber(dataId, id)]);
     };
-    const click4=()=>{
-        deleteRecipe(dataId)//видаляємо рецепти які ми вибрали в масив
-        setDataId([])//очищаємо масив айдішок що ми  хотіли видалити
-    }
+    const click4 = () => {
+        deleteRecipe(dataId); //видаляємо рецепти які ми вибрали в масив
+        setDataId([]); //очищаємо масив айдішок що ми  хотіли видалити
+    };
+
+    useEffect(() => {
+        const container = document.getElementById("scroll-container");
+        container.addEventListener("scroll", scrollHandler);
+
+        return function cleanup() {
+            container.removeEventListener("scroll", scrollHandler);
+        };
+    }, []);
+
+    const scrollHandler = (e) => {
+        // console.log("scrollHeight", e.target.scrollHeight); //загальна висота компонента з урахуванням скролу
+        // console.log('scrollTop', e.target.scrollTop);//тепершінє положення скролу від початку компонетна
+        // console.log('innerHeight', window.innerHeight);//висота видимої області сторінки (розмір екрану висота)
+        if (e.target.scrollTop > 1598) {
+            deleteFirstItems();
+        } //при висоті скролу 1622 виконуємо фукцію видалення перших пяти рецептів
+        if (e.target.scrollHeight < 2400) {
+            fetchData(page); //відправляємо запит по нову сторінку
+            setPage(page + 1); //оновлюємо номер сторінки яку ми бедемо загружати в майбутньому
+        }
+    };
+
     return (
-        <div className="repices">
-            <button onClick={click}>видалити перші рецепти</button>
+        <div className="repices" id="scroll-container">
+            {/* <button onClick={click}>видалити перші рецепти</button> */}
             <button onClick={click2}>
                 відправити запит на ще одну сторінку
             </button>
-            {dataId.length>0?<button onClick={click4}>delete</button>:""}{/* в масиві айдішок які треба видалити є значення тоді відобразити кнопку */}
+            {dataId.length > 0 ? <button onClick={click4}>delete</button> : ""}
+            {/* в масиві айдішок які треба видалити є значення тоді відобразити кнопку */}
             {recipes.slice(0, 15).map((el) => (
                 <Recipe
                     click3={click3}

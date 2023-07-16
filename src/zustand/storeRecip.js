@@ -17,6 +17,7 @@ export const useRecip = create(
             });//добавлення всієї інформації про пиво 
         },
         fetchData: async (page) => {
+            debugger
             const res = await fetch(
                 `https://api.punkapi.com/v2/beers?page=${page}`
             );
