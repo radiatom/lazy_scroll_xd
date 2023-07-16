@@ -3,7 +3,7 @@ import { useRecip } from "../../zustand/storeRecip";
 import Recipe from "./Recipe/Recipe";
 import "./repices.scss";
 
-const Recipes = () => {
+const Recipes = (props) => {
     const [page, setPage] = useState(1);
     const [dataId, setDataId] = useState([]);
     const fetchData = useRecip((state) => state.fetchData); //запит на отримання першої сторінки і відсортування з 25 рецептів лишити 15
@@ -14,14 +14,15 @@ const Recipes = () => {
     useEffect(() => {
         if (recipes.length === 0) {
             fetchData(page); //перший запит, перевірка щоб не робило кучу запитів якщо в сторі вже є перша сторінка
+            setPage(page+1)//оновлюємо номер сторінки яку ми бедемо загружати в майбутньому
         }
-    }, []);
+    }, [props]);
     const click = () => {
         deleteFirstItems(); //видалення перших 5 рецептів
     };
     const click2 = () => {
-        setPage(page + 1); //оновлюємо номер сторінки яку ми бедемо загружати
         fetchData(page); //відправляємо запит по нову сторінку
+        setPage(page+1); //оновлюємо номер сторінки яку ми бедемо загружати в майбутньому
     };
     const click3 = (id) => {
         const addOrRemoveNumber = (array, number) => {

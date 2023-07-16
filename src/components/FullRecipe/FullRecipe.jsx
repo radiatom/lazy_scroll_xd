@@ -35,7 +35,7 @@ const FullRecipe = () => {
                         {r.boil_volume.unit}
                     </p>
                     <p><b>mash temp:</b></p>
-                    <div className="fullRecipe__select">{r.method.mash_temp.map(el=>(<MashTemp el={el}/>))}</div>
+                    <div className="fullRecipe__select">{r.method.mash_temp.map( el=>(<MashTemp el={el}/>))}</div>
                     <p><b>fermentation:</b> {r.method.fermentation.temp.value}{" "}{r.method.fermentation.temp.unit}</p>
                     <h2>Ingredients:</h2>
                     <p><b>malt:</b></p>
