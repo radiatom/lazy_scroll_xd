@@ -19,7 +19,7 @@ const Recipes = (props) => {
     }, [props]);//перший запит, перевірка щоб не робило кучу запитів якщо в сторі вже є перша сторінка
 
     useEffect(() => {
-        if (recipes.length === 15) {
+        if (recipes.length <= 15&&recipes.length > 10) {
             fetchData(page); 
             setPage(page+1)
         }
@@ -55,7 +55,7 @@ const Recipes = (props) => {
     const scrollHandler = (e) => {
         if (e.target.scrollTop > 1598) {
             deleteFirstItems();
-        } //при висоті скролу 1622 виконуємо фукцію видалення перших пяти рецептів
+        } //при висоті скролу 1598 виконуємо фукцію видалення перших пяти рецептів
     };//реакція на скрол
 
     return (
