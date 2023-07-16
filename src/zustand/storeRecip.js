@@ -6,22 +6,19 @@ export const useRecip = create(
         recipes: [],
         fullRecipe: {},
         fetchDataOneRecipe: async (id) => {
-            const res = await fetch(
-                `https://api.punkapi.com/v2/beers/${id}`
-            );
-            const result = await res.json();//отримання результата запиту про один рецепт
+            const res = await fetch(`https://api.punkapi.com/v2/beers/${id}`);
+            const result = await res.json(); //отримання результата запиту про один рецепт
             set((state) => {
                 return {
-                    fullRecipe: {...result[0]},
+                    fullRecipe: { ...result[0] },
                 };
-            });//добавлення всієї інформації про пиво 
+            }); //добавлення всієї інформації про пиво
         },
         fetchData: async (page) => {
-            debugger
             const res = await fetch(
                 `https://api.punkapi.com/v2/beers?page=${page}`
             );
-            const result = await res.json();//отримання результата запиту 25 рецептів
+            const result = await res.json(); //отримання результата запиту 25 рецептів
 
             const newRecipes = result.map(
                 ({ id, name, tagline, description, image_url }) => ({
@@ -31,29 +28,31 @@ export const useRecip = create(
                     description,
                     image_url,
                 })
-            );//фільтрування 25 рецептів щоб не мати всіх значень
+            ); //фільтрування 25 рецептів щоб не мати всіх значень
             set((state) => {
                 return {
                     recipes: [...state.recipes, ...newRecipes],
                 };
-            });//добавлення 25 відфільтрованих рецептів в стейт який використовуєм для рендиренгу
+            }); //добавлення 25 відфільтрованих рецептів в стейт який використовуєм для рендиренгу
         },
-        deleteFirstItems:()=>{
+        deleteFirstItems: () => {
             set((state) => {
                 const newData = state.recipes.slice(); // Копіюємо масив
                 newData.splice(0, 5); // Видаляє перші 5 об'єктів з newData
                 return {
                     recipes: [...newData],
-                };//вертаємо масив рецептів без 5 перших
+                }; //вертаємо масив рецептів без 5 перших
             });
         },
-        deleteRecipe:(arrayId)=>{
+        deleteRecipe: (arrayId) => {
             set((state) => {
-                const newData1 = state.recipes.filter((item) => !arrayId.includes(item.id));//видаляємо обєкти які мають id що співпадають з значеннями в масиві arrayId 
+                const newData1 = state.recipes.filter(
+                    (item) => !arrayId.includes(item.id)
+                ); //видаляємо обєкти які мають id що співпадають з значеннями в масиві arrayId
                 return {
                     recipes: [...newData1],
-                }//вертаємо масив без рецептів які ми вибрали щоб видалити
+                }; //вертаємо масив без рецептів які ми вибрали щоб видалити
             });
-        }
+        },
     }))
 );

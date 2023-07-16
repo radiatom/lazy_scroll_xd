@@ -4,30 +4,36 @@ import Recipe from "./Recipe/Recipe";
 import "./repices.scss";
 
 const Recipes = (props) => {
-    const [page, setPage] = useState(1);
-    const [dataId, setDataId] = useState([]);
+    const [page, setPage] = useState(1);//номер сторінки які ми хочемо завантажити
+    const [dataId, setDataId] = useState([]);//пустий масив айдішок які ми хочемо видалити
     const fetchData = useRecip((state) => state.fetchData); //запит на отримання першої сторінки і відсортування з 25 рецептів лишити 15
     const recipes = useRecip((state) => state.recipes); //15рецептів
     const deleteFirstItems = useRecip((state) => state.deleteFirstItems); //видалення перших 5 рецептів
     const deleteRecipe = useRecip((state) => state.deleteRecipe); //видалення конкретних рецептів
 
-    // useEffect(() => {
-    //     console.log(page);
-    // }, [page]);
-
     useEffect(() => {
         if (recipes.length === 0) {
-            fetchData(1); //перший запит, перевірка щоб не робило кучу запитів якщо в сторі вже є перша сторінка
+            fetchData(page); 
+            setPage(page+1)
         }
-    }, [props]);
-    const click = () => {
-        deleteFirstItems(); //видалення перших 5 рецептів
-    };
-    const click2 = () => {
-        fetchData(page); //відправляємо запит по нову сторінку
-        setPage(page + 1); //оновлюємо номер сторінки яку ми бедемо загружати в майбутньому
-    };
-    const click3 = (id) => {
+    }, [props]);//перший запит, перевірка щоб не робило кучу запитів якщо в сторі вже є перша сторінка
+
+    useEffect(() => {
+        if (recipes.length === 15) {
+            fetchData(page); 
+            setPage(page+1)
+        }
+    }, [recipes]);//слідкуєм за рецептами, якщо їх лишилось 15 штук то робимо запит по нову сторінку
+
+    useEffect(() => {
+        const container = document.getElementById("scroll-container");
+        container.addEventListener("scroll", scrollHandler);
+        return function cleanup() {
+            container.removeEventListener("scroll", scrollHandler);
+        };
+    }, []);//слідкувати за скролом
+
+    const selectDelete = (id) => {
         const addOrRemoveNumber = (array, number) => {
             const newArray = [...array]; // Створюємо копію масиву
             const index = newArray.indexOf(number);
@@ -36,49 +42,29 @@ const Recipes = (props) => {
             } else {
                 newArray.splice(index, 1); //видаляємо число якщо воно є
             }
-            console.log(newArray); //відображуємо в консолі які id у нас в масиві
-            return newArray; // Повертаємо оновлений масив
+            return newArray; // Повертаємо оновлений масив з айдійшками які ми хочемо видалити
         };
-        setDataId([...addOrRemoveNumber(dataId, id)]);
-    };
-    const click4 = () => {
-        deleteRecipe(dataId); //видаляємо рецепти які ми вибрали в масив
-        setDataId([]); //очищаємо масив айдішок що ми  хотіли видалити
+        setDataId([...addOrRemoveNumber(dataId, id)]);// вставляємо цей масив в стан
     };
 
-    useEffect(() => {
-        const container = document.getElementById("scroll-container");
-        container.addEventListener("scroll", scrollHandler);
-
-        return function cleanup() {
-            container.removeEventListener("scroll", scrollHandler);
-        };
-    }, []);
+    const deleteBtn = () => {
+        deleteRecipe(dataId); //видаляємо рецепти які ми вибрали в масив (стан)
+        setDataId([]); //очищаємо масив айдішок що ми  хотіли видалити (встановлюємо що масив в стані пустий)
+    };
 
     const scrollHandler = (e) => {
-        // console.log("scrollHeight", e.target.scrollHeight); //загальна висота компонента з урахуванням скролу
-        // console.log('scrollTop', e.target.scrollTop);//тепершінє положення скролу від початку компонетна
-        // console.log('innerHeight', window.innerHeight);//висота видимої області сторінки (розмір екрану висота)
         if (e.target.scrollTop > 1598) {
             deleteFirstItems();
         } //при висоті скролу 1622 виконуємо фукцію видалення перших пяти рецептів
-        if (e.target.scrollHeight < 2400) {
-            fetchData(page); //відправляємо запит по нову сторінку
-            setPage(page + 1); //оновлюємо номер сторінки яку ми бедемо загружати в майбутньому
-        }
-    };
+    };//реакція на скрол
 
     return (
         <div className="repices" id="scroll-container">
-            {/* <button onClick={click}>видалити перші рецепти</button> */}
-            <button onClick={click2}>
-                відправити запит на ще одну сторінку
-            </button>
-            {dataId.length > 0 ? <button onClick={click4}>delete</button> : ""}
+            {dataId.length > 0 ? <button onClick={deleteBtn}>delete</button> : ""}
             {/* в масиві айдішок які треба видалити є значення тоді відобразити кнопку */}
             {recipes.slice(0, 15).map((el) => (
                 <Recipe
-                    click3={click3}
+                selectDelete={selectDelete}
                     id={el.id}
                     key={el.id}
                     name={el.name}
