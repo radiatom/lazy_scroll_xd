@@ -1,10 +1,8 @@
 import React from 'react';
 
-const Malt = (props) => {
+const Malt = ({el}) => {
       return (
-            <div>
-                  
-            </div>
+            <p>{el.name}{" "}{el.amount.value}{" "}{el.amount.unit}</p>
       );
 }
 

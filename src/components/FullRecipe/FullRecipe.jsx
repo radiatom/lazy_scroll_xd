@@ -1,6 +1,7 @@
 import React from "react";
 import { useRecip } from "../../zustand/storeRecip";
 import MashTemp from "./MashTemp/MashTemp";
+import Malt from "./Malt/Malt";
 
 const FullRecipe = () => {
     const r = useRecip((state) => state.fullRecipe);
@@ -24,18 +25,18 @@ const FullRecipe = () => {
                     <p>brewers_tips: {r.brewers_tips}</p>
                     <p>contributed_by: {r.contributed_by}</p>
                     <p>
-                        volume: {r.volume.value} ' '{r.volume.unit}{" "}
+                        volume: {r.volume.value}{" "}{r.volume.unit}
                     </p>
                     <p>
-                        boil_volume: {r.boil_volume.value}' '
+                        boil_volume: {r.boil_volume.value}{" "}
                         {r.boil_volume.unit}
                     </p>
                     <p><b>mash_temp:</b></p>
                     {r.method.mash_temp.map(el=>(<MashTemp el={el}/>))}
-                    <p>fermentation: {r.method.fermentation.temp.value}''{r.method.fermentation.temp.unit}</p>
+                    <p>fermentation: {r.method.fermentation.temp.value}{" "}{r.method.fermentation.temp.unit}</p>
                     <p><b>ingredients:</b></p>
                     <p><b>malt:</b></p>
-                    
+                    {r.ingredients.malt.map(el=>(<Malt el={el}/>))}
                     <p></p>
                     <p></p>
                 </div>
