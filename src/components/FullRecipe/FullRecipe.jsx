@@ -2,6 +2,7 @@ import React from "react";
 import { useRecip } from "../../zustand/storeRecip";
 import MashTemp from "./MashTemp/MashTemp";
 import Malt from "./Malt/Malt";
+import Hops from "./Hops/Hops";
 
 const FullRecipe = () => {
     const r = useRecip((state) => state.fullRecipe);
@@ -37,8 +38,9 @@ const FullRecipe = () => {
                     <p><b>ingredients:</b></p>
                     <p><b>malt:</b></p>
                     {r.ingredients.malt.map(el=>(<Malt el={el}/>))}
-                    <p></p>
-                    <p></p>
+                    <p><b>hops:</b></p>
+                    {r.ingredients.hops.map(el=>(<Hops el={el}/>))}
+                    <p>yeast: {r.ingredients.yeast}</p>
                 </div>
             ) : (
                 ""
