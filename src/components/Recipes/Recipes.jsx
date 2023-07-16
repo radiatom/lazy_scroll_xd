@@ -48,7 +48,7 @@ const Recipes = (props) => {
             <button onClick={click2}>
                 відправити запит на ще одну сторінку
             </button>
-            <button onClick={click4}>delete</button>
+            {dataId.length>0?<button onClick={click4}>delete</button>:""}{/* в масиві айдішок які треба видалити є значення тоді відобразити кнопку */}
             {recipes.slice(0, 15).map((el) => (
                 <Recipe
                     click3={click3}
