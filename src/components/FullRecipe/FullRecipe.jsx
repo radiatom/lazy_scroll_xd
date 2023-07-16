@@ -1,5 +1,6 @@
 import React from "react";
 import { useRecip } from "../../zustand/storeRecip";
+import MashTemp from "./MashTemp/MashTemp";
 
 const FullRecipe = () => {
     const r = useRecip((state) => state.fullRecipe);
@@ -29,7 +30,8 @@ const FullRecipe = () => {
                         boil_volume: {r.boil_volume.value}' '
                         {r.boil_volume.unit}
                     </p>
-                    {r.method.mash_temp.map(el=>(<MashTemp/>))}
+                    <p><b>mash_temp:</b></p>
+                    {r.method.mash_temp.map(el=>(<MashTemp el={el}/>))}
                     <p>fermentation: {r.method.fermentation.temp.value}''{r.method.fermentation.temp.unit}</p>
                     <p><b>ingredients:</b></p>
                     <p><b>malt:</b></p>
